@@ -4694,4 +4694,5 @@ Library:GiveSignal(Players.PlayerAdded:Connect(OnPlayerChange));
 Library:GiveSignal(Players.PlayerRemoving:Connect(OnPlayerChange));
 
 getgenv().Library = Library
+Library.ShowCustomCursor = true
 return Library

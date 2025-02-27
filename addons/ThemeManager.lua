@@ -254,7 +254,7 @@ function ThemeManager:ThemeUpdate()
 			theme[field] = Options[field].Value:ToHex()
 		end
 
-		writefile(self.Folder .. '/themes/' .. file .. '.json', httpService:JSONEncode(theme))
+		writefile(self.Folder .. '/themes/' .. file.json', httpService:JSONEncode(theme))
 	end
 
 

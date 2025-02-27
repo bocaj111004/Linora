@@ -60,51 +60,32 @@ local ThemeManager = {} do
 	end
 	
 	function ThemeManager:ApplyTheme(theme)
+			self.Library:Notify(string.format('Changed theme to %q', theme)
 		local customThemeData = self:GetCustomTheme(theme)
 		local data = customThemeData or self.BuiltInThemes[theme]
 
 		if not data then return end
 
 		-- custom themes are just regular dictionaries instead of an array with { index, dictionary }
-		if self.Library.InnerVideoBackground ~= nil then
-			self.Library.InnerVideoBackground.Visible = false
-		end
-		
+
 		local scheme = data[2]
 		for idx, col in next, customThemeData or scheme do
-			if idx ~= "VideoLink" then
-				self.Library[idx] = Color3.fromHex(col)
-				
-				if getgenv().Linoria.Options[idx] then
-					getgenv().Linoria.Options[idx]:SetValueRGB(Color3.fromHex(col))
-				end
-			else
-				self.Library[idx] = col
-				
-				if getgenv().Linoria.Options[idx] then
-					getgenv().Linoria.Options[idx]:SetValue(col)
-				end
-				
-				ApplyBackgroundVideo(col)
+			self.Library[idx] = Color3.fromHex(col)
+			
+			if Options[idx] then
+				Options[idx]:SetValueRGB(Color3.fromHex(col))
 			end
 		end
 
 		self:ThemeUpdate()
 	end
 
-	function ThemeManager:ThemeUpdate()
+function ThemeManager:ThemeUpdate()
 		-- This allows us to force apply themes without loading the themes tab :)
-		if self.Library.InnerVideoBackground ~= nil then
-			self.Library.InnerVideoBackground.Visible = false
-		end
-		
-		local options = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor", "VideoLink" }
+		local options = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
 		for i, field in next, options do
-			if getgenv().Linoria.Options and getgenv().Linoria.Options[field] then
-				self.Library[field] = getgenv().Linoria.Options[field].Value
-				if field == "VideoLink" then
-					ApplyBackgroundVideo(getgenv().Linoria.Options[field].Value)
-				end
+			if Options and Options[field] then
+				self.Library[field] = Options[field].Value
 			end
 		end
 
@@ -187,6 +168,7 @@ local ThemeManager = {} do
 
 			Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
 			Options.ThemeManager_CustomThemeList:SetValue(nil)
+				self.Library:Notify(string.format('Created theme %q', name))
 		end)
 
 		groupbox:AddDivider()

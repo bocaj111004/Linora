@@ -1,5 +1,4 @@
-local Toggles = getgenv().Toggles
-local Options = getgenv().Options
+
 local cloneref = cloneref or function(o) return o end
 local httpService = cloneref(game:GetService('HttpService'))
 local httprequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
@@ -184,23 +183,23 @@ local ThemeManager = {} do
 
 		groupbox:AddInput('ThemeManager_CustomThemeName', { Text = 'Custom theme name' })
 		groupbox:AddButton('Create theme', function() 
-			self:SaveCustomTheme(getgenv().Linoria.Options.ThemeManager_CustomThemeName.Value)
+			self:SaveCustomTheme(Options.ThemeManager_CustomThemeName.Value)
 
-			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValue(nil)
+			Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+			Options.ThemeManager_CustomThemeList:SetValue(nil)
 		end)
 
 		groupbox:AddDivider()
 
 		groupbox:AddDropdown('ThemeManager_CustomThemeList', { Text = 'Custom themes', Values = self:ReloadCustomThemes(), AllowNull = true, Default = 1 })
 		groupbox:AddButton('Load theme', function() 
-			self:ApplyTheme(getgenv().Linoria.Options.ThemeManager_CustomThemeList.Value) 
+			self:ApplyTheme(Options.ThemeManager_CustomThemeList.Value) 
 		end)
 		groupbox:AddButton('Overwrite theme', function()
-			self:SaveCustomTheme(getgenv().Linoria.Options.ThemeManager_CustomThemeName.Value)
+			self:SaveCustomTheme(Options.ThemeManager_CustomThemeName.Value)
 		end)
 		groupbox:AddButton('Delete theme', function()
-			local name = getgenv().Linoria.Options.ThemeManager_CustomThemeName.Value
+			local name = Options.ThemeManager_CustomThemeName.Value
 
 			local success, err = self:Delete(name)
 			if not success then
@@ -208,17 +207,17 @@ local ThemeManager = {} do
 			end
 
 			self.Library:Notify(string.format('Deleted theme %q', name))
-			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValue(nil)
+			Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+			Options.ThemeManager_CustomThemeList:SetValue(nil)
 		end)
 		groupbox:AddButton('Refresh list', function()
-			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValue(nil)
+			Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+			Options.ThemeManager_CustomThemeList:SetValue(nil)
 		end)
 		groupbox:AddButton('Set as default', function()
-			if getgenv().Linoria.Options.ThemeManager_CustomThemeList.Value ~= nil and getgenv().Linoria.Options.ThemeManager_CustomThemeList.Value ~= '' then
-				self:SaveDefault(getgenv().Linoria.Options.ThemeManager_CustomThemeList.Value)
-				self.Library:Notify(string.format('Set default theme to %q', getgenv().Linoria.Options.ThemeManager_CustomThemeList.Value))
+			if Options.ThemeManager_CustomThemeList.Value ~= nil and Options.ThemeManager_CustomThemeList.Value ~= '' then
+				self:SaveDefault(Options.ThemeManager_CustomThemeList.Value)
+				self.Library:Notify(string.format('Set default theme to %q', Options.ThemeManager_CustomThemeList.Value))
 			end
 		end)
 		groupbox:AddButton('Reset default', function()
@@ -228,8 +227,8 @@ local ThemeManager = {} do
 			end
 				
 			self.Library:Notify('Set default theme to nothing')
-			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValue(nil)
+			Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+			Options.ThemeManager_CustomThemeList:SetValue(nil)
 		end)
 
 		ThemeManager:LoadDefault()
@@ -238,11 +237,11 @@ local ThemeManager = {} do
 			self:ThemeUpdate()
 		end
 
-		getgenv().Linoria.Options.BackgroundColor:OnChanged(UpdateTheme)
-		getgenv().Linoria.Options.MainColor:OnChanged(UpdateTheme)
-		getgenv().Linoria.Options.AccentColor:OnChanged(UpdateTheme)
-		getgenv().Linoria.Options.OutlineColor:OnChanged(UpdateTheme)
-		getgenv().Linoria.Options.FontColor:OnChanged(UpdateTheme)
+		Options.BackgroundColor:OnChanged(UpdateTheme)
+		Options.MainColor:OnChanged(UpdateTheme)
+		Options.AccentColor:OnChanged(UpdateTheme)
+		Options.OutlineColor:OnChanged(UpdateTheme)
+		Options.FontColor:OnChanged(UpdateTheme)
 	end
 
 	function ThemeManager:GetCustomTheme(file)

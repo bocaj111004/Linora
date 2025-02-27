@@ -1,3 +1,5 @@
+local Toggles = getgenv().Toggles
+local Options = getgenv().Options
 local cloneref = cloneref or function(o) return o end
 local httpService = cloneref(game:GetService('HttpService'))
 local httprequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
@@ -269,9 +271,9 @@ local ThemeManager = {} do
 
 		for _, field in next, fields do
 			if field == "VideoLink" then
-				theme[field] = getgenv().Linoria.Options[field].Value
+				theme[field] = Options[field].Value
 			else
-				theme[field] = getgenv().Linoria.Options[field].Value:ToHex()
+				theme[field] = Options[field].Value:ToHex()
 			end
 		end
 

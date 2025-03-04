@@ -1546,7 +1546,7 @@ do
 			end;
 
 			local State = KeyPicker:GetState();
-			local ShowToggle = Library.ShowToggleFrameInKeybinds and KeyPicker.Mode == 'Toggle';
+			local ShowToggle = Library.ShowToggleFrameInKeybinds and KeyPicker.Mode == 'Toggle' and Library.IsMobile;
 
 			if ShowToggle then
 				if KeybindsToggle.Loaded then
@@ -3678,6 +3678,8 @@ function Library:CreateWindow(...)
 	if Config.Center then
 		-- Config.AnchorPoint = Vector2.new(0.5, 0.5)
 		Config.Position = UDim2.new(0.5, -Config.Size.X.Offset/2, 0.5, -Config.Size.Y.Offset/2)
+						else
+							Config.Position = Udim2.new(0, 1325, 0, 375)
 	end
 
 	local Window = {

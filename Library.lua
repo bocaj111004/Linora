@@ -112,6 +112,7 @@ Library.IsMobile = (Library.DevicePlatform == Enum.Platform.Android or Library.D
 if Library.IsMobile then
 	Library.MinSize = UDim2.new(0,200,0,250); -- Make UI little bit smaller.
 end
+Library.MinSize = if Library.IsMobile then Vector2.new(550, 200) else Vector2.new(550, 300);
 
 local RainbowStep = 0
 local Hue = 0

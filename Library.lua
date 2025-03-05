@@ -3679,7 +3679,7 @@ function Library:CreateWindow(...)
 		-- Config.AnchorPoint = Vector2.new(0.5, 0.5)
 		Config.Position = UDim2.new(0.5, -Config.Size.X.Offset/2, 0.5, -Config.Size.Y.Offset/2)
 						else
-							Config.Position = UDim2.new(0.5, Config.Size.X.Offset/1.15, 0.5, -Config.Size.Y.Offset/5)
+							Config.Position = UDim2.new(0.5, Config.Size.X.Offset/1.35, 0.5, -Config.Size.Y.Offset/5)
 	end
 
 	local Window = {

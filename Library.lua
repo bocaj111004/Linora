@@ -4480,7 +4480,7 @@ function Library:CreateWindow(...)
 				elseif Option.Type == 'KeyPicker' then
 					Option:SetModePickerVisibility(false);
 				elseif Option.Type == 'ColorPicker' then
-					Option.ContextMenu:Hide();
+				
 					Option:Hide();
 				end
 			end)

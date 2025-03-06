@@ -695,7 +695,7 @@ do
 			Value = Info.Default;
 			Transparency = Info.Transparency or 0;
 			Type = 'ColorPicker';
-			Title = typeof(Info.Title) == 'string' and Info.Title or 'Color picker',
+			Title = type(Info.Title) == 'string' and Info.Title or 'Color picker',
 			Callback = Info.Callback or function(Color) end;
 		};
 
@@ -738,7 +738,7 @@ do
 			BackgroundColor3 = Color3.new(1, 1, 1);
 			BorderColor3 = Color3.new(0, 0, 0);
 			Position = UDim2.fromOffset(DisplayFrame.AbsolutePosition.X, DisplayFrame.AbsolutePosition.Y + 18),
-			Size = Library.MinSize;
+			Size = UDim2.fromOffset(230, Info.Transparency and 271 or 253);
 			Visible = false;
 			ZIndex = 15;
 			Parent = ScreenGui,
@@ -891,7 +891,7 @@ do
 		});
 
 		local TransparencyBoxOuter, TransparencyBoxInner, TransparencyCursor;
-
+		
 		if Info.Transparency then 
 			TransparencyBoxOuter = Library:Create('Frame', {
 				BorderColor3 = Color3.new(0, 0, 0);
@@ -940,6 +940,7 @@ do
 			ZIndex = 16;
 			Parent = PickerFrameInner;
 		});
+
 
 		local ContextMenu = {}
 		do
@@ -1018,12 +1019,12 @@ do
 				if Library.IsMobile then
 					Library.CanDrag = true;
 				end;
-
+				
 				self.Container.Visible = false;
 			end
 
 			function ContextMenu:AddOption(Str, Callback)
-				if typeof(Callback) ~= 'function' then
+				if type(Callback) ~= 'function' then
 					Callback = function() end
 				end
 
@@ -1075,7 +1076,6 @@ do
 			end)
 
 		end
-		ColorPicker.ContextMenu = ContextMenu;
 
 		Library:AddToRegistry(PickerFrameInner, { BackgroundColor3 = 'BackgroundColor'; BorderColor3 = 'OutlineColor'; });
 		Library:AddToRegistry(Highlight, { BackgroundColor3 = 'AccentColor'; });
@@ -1291,6 +1291,7 @@ do
 
 		return self;
 	end;
+
 
 	function Funcs:AddKeyPicker(Idx, Info)
 		local ParentObj = self;

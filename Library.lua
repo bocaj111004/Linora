@@ -87,25 +87,46 @@ local Library = {
 	Options = Options;
 };
 local MouseIcon = Instance.new("Frame")
-
-MouseIcon.Size = UDim2.new(0.005,0,0.005,0)
-MouseIcon.Parent = Library.ScreenGui
-MouseIcon.AnchorPoint = Vector2.new(0.5,0.5)
-MouseIcon.BorderSizePixel = 1.5
-MouseIcon.ZIndex = 999999
-local AspectRatio = Instance.new("UIAspectRatioConstraint")
-AspectRatio.Parent = MouseIcon
-AspectRatio.AspectRatio = 1
-local MouseConnection = game:GetService("RunService").RenderStepped:Connect(function()
-	MouseIcon.BackgroundColor3 = Library.AccentColor
-	MouseIcon.BorderColor3 = Library.OutlineColor
-	MouseIcon.Position = UDim2.new(0,LocalPlayer:GetMouse().X,0,LocalPlayer:GetMouse().Y)
-if Library.ShowCustomCursor == true then
-	MouseIcon.Visible = Library.Toggled
-else
-	MouseIcon.Visible = false
-end
-end)
+		MouseIcon.Transparency = 1
+		local InnerPointer = Instance.new("ImageLabel")
+		InnerPointer.Size = UDim2.new(0.8,0,0.8,0)
+		InnerPointer.BackgroundTransparency = 1
+		InnerPointer.Image = "http://www.roblox.com/asset/?id=483266793"
+		InnerPointer.Parent = MouseIcon
+		InnerPointer.ZIndex = 39
+		InnerPointer.Position = UDim2.new(0.5,0,0.5,0)
+		InnerPointer.AnchorPoint = Vector2.new(0.5,0.5)
+		InnerPointer.Rotation = -20
+		local OuterPointer = Instance.new("ImageLabel")
+		OuterPointer.Size = UDim2.new(1,0,1,0)
+	
+		OuterPointer.BackgroundTransparency = 1
+		OuterPointer.Image = "http://www.roblox.com/asset/?id=483266793"
+		OuterPointer.Parent = MouseIcon
+		OuterPointer.Position = UDim2.new(0.5,0,0.5,0)
+		OuterPointer.AnchorPoint = Vector2.new(0.5,0.5)
+		OuterPointer.Rotation = -20
+		MouseIcon.Size = UDim2.new(0.0175,0,0.0175,0)
+		MouseIcon.Parent = Library.ScreenGui
+		MouseIcon.AnchorPoint = Vector2.new(0.5,0)
+		
+	
+		local AspectRatio = Instance.new("UIAspectRatioConstraint")
+		AspectRatio.Parent = MouseIcon
+		AspectRatio.AspectRatio = 0.9
+		local MouseConnection = game:GetService("RunService").RenderStepped:Connect(function()
+			MouseIcon.ZIndex = 99999999
+			OuterPointer.ZIndex = 99999991
+			InnerPointer.ZIndex = 99999992
+			InnerPointer.ImageColor3 = Library.AccentColor
+			OuterPointer.ImageColor3 = Library.OutlineColor
+			MouseIcon.Position = UDim2.new(0,LocalPlayer:GetMouse().X,0,LocalPlayer:GetMouse().Y)
+			if Library.ShowCustomCursor == true then
+				MouseIcon.Visible = Library.Toggled
+			else
+				MouseIcon.Visible = false
+			end
+		end)
 pcall(function() Library.DevicePlatform = InputService:GetPlatform(); end); -- For safety so the UI library doesn't error.
 Library.IsMobile = (Library.DevicePlatform == Enum.Platform.Android or Library.DevicePlatform == Enum.Platform.IOS);
 

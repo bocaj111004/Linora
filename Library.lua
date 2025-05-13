@@ -1569,7 +1569,7 @@ do
 			end;
 
 			local State = KeyPicker:GetState();
-			local ShowToggle = Library.ShowToggleFrameInKeybinds and KeyPicker.Mode == 'Toggle' and Library.IsMobile;
+			local ShowToggle = Library.ShowToggleFrameInKeybinds and KeyPicker.Mode == 'Toggle';
 
 			if ShowToggle then
 				if KeybindsToggle.Loaded then

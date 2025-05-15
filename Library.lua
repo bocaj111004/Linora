@@ -1514,10 +1514,10 @@ do
 			KeybindsToggle.Loaded = true;
 		end;
 
-		local Modes = Info.Modes or { 'Always', 'Toggle', 'Hold' };
+		local Modes = { 'Always', 'Toggle', 'Hold' };
 		local ModeButtons = {};
 
-		for Idx, Mode in next, Modes do
+		for Idx, Mode in pairs(Modes) do
 			local ModeButton = {};
 
 			local Label = Library:CreateLabel({

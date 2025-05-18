@@ -5,33 +5,33 @@ local getassetfunc = getcustomasset or getsynasset
 local isfolder, isfile, listfiles = isfolder, isfile, listfiles;
 
 if typeof(copyfunction) == "function" then
-	-- Fix is_____ functions for shitsploits, those functions should never error, only return a boolean.
+    -- Fix is_____ functions for shitsploits, those functions should never error, only return a boolean.
 
-	local
-	isfolder_copy,
-	isfile_copy,
-	listfiles_copy = copyfunction(isfolder), copyfunction(isfile), copyfunction(listfiles);
+    local
+        isfolder_copy,
+        isfile_copy,
+        listfiles_copy = copyfunction(isfolder), copyfunction(isfile), copyfunction(listfiles);
 
-	local isfolder_success, isfolder_error = pcall(function()
-		return isfolder_copy("test" .. tostring(math.random(1000000, 9999999)))
-	end);
+    local isfolder_success, isfolder_error = pcall(function()
+        return isfolder_copy("test" .. tostring(math.random(1000000, 9999999)))
+    end);
 
-	if isfolder_success == false or typeof(isfolder_error) ~= "boolean" then
-		isfolder = function(folder)
-			local success, data = pcall(isfolder_copy, folder)
-			return (if success then data else false)
-		end;
+    if isfolder_success == false or typeof(isfolder_error) ~= "boolean" then
+        isfolder = function(folder)
+            local success, data = pcall(isfolder_copy, folder)
+            return (if success then data else false)
+        end;
 
-		isfile = function(file)
-			local success, data = pcall(isfile_copy, file)
-			return (if success then data else false)
-		end;
+        isfile = function(file)
+            local success, data = pcall(isfile_copy, file)
+            return (if success then data else false)
+        end;
 
-		listfiles = function(folder)
-			local success, data = pcall(listfiles_copy, folder)
-			return (if success then data else {})
-		end;
-	end
+        listfiles = function(folder)
+            local success, data = pcall(listfiles_copy, folder)
+            return (if success then data else {})
+        end;
+    end
 end
 
 local ThemeManager = {} do
@@ -42,21 +42,12 @@ local ThemeManager = {} do
 	ThemeManager.BuiltInThemes = {
 		['Default'] 		= { 1, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1c1c1c","AccentColor":"0055ff","BackgroundColor":"141414","OutlineColor":"323232"}') },
 		['BBot'] 			= { 2, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1e1e1e","AccentColor":"7e48a3","BackgroundColor":"232323","OutlineColor":"141414"}') },
-		['Rose'] 			= { 3, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"401740","AccentColor":"ff87e5","BackgroundColor":"430039","OutlineColor":"5c124c"}') },
-		['Fatality']		= { 4, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1e1842","AccentColor":"c50754","BackgroundColor":"191335","OutlineColor":"3c355d"}') },
-		['Jester'] 			= { 5, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"242424","AccentColor":"db4467","BackgroundColor":"1c1c1c","OutlineColor":"373737"}') },
-		['Mint'] 			= { 6, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"242424","AccentColor":"3db488","BackgroundColor":"1c1c1c","OutlineColor":"373737"}') },
-
+		['Fatality']		= { 3, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1e1842","AccentColor":"c50754","BackgroundColor":"191335","OutlineColor":"3c355d"}') },
+		['Jester'] 			= { 4, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"242424","AccentColor":"db4467","BackgroundColor":"1c1c1c","OutlineColor":"373737"}') },
+		['Mint'] 			= { 5, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"242424","AccentColor":"3db488","BackgroundColor":"1c1c1c","OutlineColor":"373737"}') },
+		['Tokyo Night'] 	= { 6, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"191925","AccentColor":"6759b3","BackgroundColor":"16161f","OutlineColor":"323232"}') },
 		['Ubuntu'] 			= { 7, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"3e3e3e","AccentColor":"e2581e","BackgroundColor":"323232","OutlineColor":"191919"}') },
-
-		['Spooky'] 			= { 8, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"0b0617","AccentColor":"FF6300","BackgroundColor":"140915","OutlineColor":"4d2900"}') },
-
-		['Quartz'] 			= { 9, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"232330","AccentColor":"426e87","BackgroundColor":"1d1b26","OutlineColor":"27232f"}') },
-		['Crimson'] 			= { 10, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"2e0606","AccentColor":"ff0000","BackgroundColor":"410a0a","OutlineColor":"5e1717"}') },
-		['Dark'] 			= { 11, httpService:JSONDecode('{"MainColor":"1b1b1b","AccentColor":"6a6a6a","OutlineColor":"090909","VideoLink":"","BackgroundColor":"111111","FontColor":"dcdcdc"}') },
-		['Tokyo Night'] 	= { 12, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"191925","AccentColor":"6759b3","BackgroundColor":"232222","OutlineColor":"323232"}') },
-
-
+		['Quartz'] 			= { 8, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"232330","AccentColor":"426e87","BackgroundColor":"1d1b26","OutlineColor":"27232f"}') },
 	}
 
 	function ApplyBackgroundVideo(videoLink)
@@ -102,7 +93,7 @@ local ThemeManager = {} do
 
 	--// Folders \\--
 	function ThemeManager:GetPaths()
-		local paths = {}
+	    local paths = {}
 
 		local parts = self.Folder:split('/')
 		for idx = 1, #parts do
@@ -110,7 +101,7 @@ local ThemeManager = {} do
 		end
 
 		paths[#paths + 1] = self.Folder .. '/themes'
-
+		
 		return paths
 	end
 
@@ -135,7 +126,7 @@ local ThemeManager = {} do
 		self.Folder = folder;
 		self:BuildFolderTree()
 	end
-
+	
 	--// Apply, Update theme \\--
 	function ThemeManager:ApplyTheme(theme)
 		local customThemeData = self:GetCustomTheme(theme)
@@ -147,20 +138,20 @@ local ThemeManager = {} do
 		if self.Library.InnerVideoBackground ~= nil then
 			self.Library.InnerVideoBackground.Visible = false
 		end
-
+		
 		local scheme = data[2]
 		for idx, col in next, customThemeData or scheme do
 			if idx == "VideoLink" then
 				self.Library[idx] = col
-
+				
 				if self.Library.Options[idx] then
 					self.Library.Options[idx]:SetValue(col)
 				end
-
+				
 				ApplyBackgroundVideo(col)
 			else
 				self.Library[idx] = Color3.fromHex(col)
-
+				
 				if self.Library.Options[idx] then
 					self.Library.Options[idx]:SetValueRGB(Color3.fromHex(col))
 				end
@@ -200,7 +191,7 @@ local ThemeManager = {} do
 
 		local data = readfile(path)
 		local success, decoded = pcall(httpService.JSONDecode, httpService, data)
-
+		
 		if not success then
 			return nil
 		end
@@ -264,10 +255,10 @@ local ThemeManager = {} do
 
 		local success = pcall(delfile, file)
 		if not success then return false, 'delete file error' end
-
+		
 		return true
 	end
-
+	
 	function ThemeManager:ReloadCustomThemes()
 		local list = listfiles(self.Folder .. '/themes')
 
@@ -303,7 +294,7 @@ local ThemeManager = {} do
 		groupbox:AddLabel('Outline color'):AddColorPicker('OutlineColor', { Default = self.Library.OutlineColor });
 		groupbox:AddLabel('Font color')	:AddColorPicker('FontColor', { Default = self.Library.FontColor });
 		groupbox:AddInput('VideoLink', { Text = '.webm Video Background (Link)', Default = self.Library.VideoLink });
-
+		
 		local ThemesArray = {}
 		for Name, Theme in next, self.BuiltInThemes do
 			table.insert(ThemesArray, Name)
@@ -315,25 +306,18 @@ local ThemeManager = {} do
 
 		groupbox:AddDropdown('ThemeManager_ThemeList', { Text = 'Theme list', Values = ThemesArray, Default = 1 })
 		groupbox:AddButton('Set as default', function()
-			
 			self:SaveDefault(self.Library.Options.ThemeManager_ThemeList.Value)
 			self.Library:Notify(string.format('Set default theme to %q', self.Library.Options.ThemeManager_ThemeList.Value))
 		end)
 
 		self.Library.Options.ThemeManager_ThemeList:OnChanged(function()
 			self:ApplyTheme(self.Library.Options.ThemeManager_ThemeList.Value)
-		
 		end)
 
 		groupbox:AddDivider()
 
 		groupbox:AddInput('ThemeManager_CustomThemeName', { Text = 'Custom theme name' })
 		groupbox:AddButton('Create theme', function() 
-			if not self.Library.Options.ThemeManager_CustomThemeName.Value or string.len(self.Library.Options.ThemeManager_CustomThemeName.Value) < 1 then
-				self.Library:Notify(string.format('Name is empty.'))
-				return
-			end
-			
 			self:SaveCustomTheme(self.Library.Options.ThemeManager_CustomThemeName.Value)
 
 			self.Library.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
@@ -346,54 +330,35 @@ local ThemeManager = {} do
 		groupbox:AddButton('Load theme', function()
 			local name = self.Library.Options.ThemeManager_CustomThemeList.Value
 
-			if not name or string.len(name) < 1 then
-				self.Library:Notify(string.format('No theme has been selected.'))
-				return
-			end
-			
 			self:ApplyTheme(name)
-			self.Library:Notify(string.format('Loaded custom theme %q', name))
+			self.Library:Notify(string.format('Loaded theme %q', name))
 		end)
 		groupbox:AddButton('Overwrite theme', function()
 			local name = self.Library.Options.ThemeManager_CustomThemeList.Value
 
-			if not name or string.len(name) < 1 then
-				self.Library:Notify(string.format('No theme has been selected.'))
-				return
-			end
-			
 			self:SaveCustomTheme(name)
-			self.Library:Notify(string.format('Overwrote custom theme %q', name))
+			self.Library:Notify(string.format('Overwrote config %q', name))
 		end)
 		groupbox:AddButton('Delete theme', function()
 			local name = self.Library.Options.ThemeManager_CustomThemeList.Value
 
-			if not name or string.len(name) < 1 then
-				self.Library:Notify(string.format('No theme has been selected.'))
-				return
-			end
-			
 			local success, err = self:Delete(name)
 			if not success then
 				return self.Library:Notify('Failed to delete theme: ' .. err)
 			end
 
-			self.Library.Options.ThemeManager_CustomThemeList:SetValue('')
 			self.Library:Notify(string.format('Deleted theme %q', name))
 			self.Library.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-		
+			self.Library.Options.ThemeManager_CustomThemeList:SetValue(nil)
 		end)
 		groupbox:AddButton('Refresh list', function()
-			self.Library.Options.ThemeManager_CustomThemeList:SetValue('')
 			self.Library.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-			
+			self.Library.Options.ThemeManager_CustomThemeList:SetValue(nil)
 		end)
 		groupbox:AddButton('Set as default', function()
-			if self.Library.Options.ThemeManager_CustomThemeList.Value == nil or self.Library.Options.ThemeManager_CustomThemeList.Value == '' then
-				self.Library:Notify(string.format('No theme has been selected.'))
-				else
+			if self.Library.Options.ThemeManager_CustomThemeList.Value ~= nil and self.Library.Options.ThemeManager_CustomThemeList.Value ~= '' then
 				self:SaveDefault(self.Library.Options.ThemeManager_CustomThemeList.Value)
-				self.Library:Notify(string.format('Set custom theme %q as default.', self.Library.Options.ThemeManager_CustomThemeList.Value))
+				self.Library:Notify(string.format('Set default theme to %q', self.Library.Options.ThemeManager_CustomThemeList.Value))
 			end
 		end)
 		groupbox:AddButton('Reset default', function()
@@ -401,9 +366,10 @@ local ThemeManager = {} do
 			if not success then 
 				return self.Library:Notify('Failed to reset default: delete file error')
 			end
-
-			self.Library:Notify('Defalt theme has been reset.')
-			
+				
+			self.Library:Notify('Set default theme to nothing')
+			self.Library.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+			self.Library.Options.ThemeManager_CustomThemeList:SetValue(nil)
 		end)
 
 		self:LoadDefault()

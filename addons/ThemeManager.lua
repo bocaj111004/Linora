@@ -317,7 +317,7 @@ local ThemeManager = {} do
 		groupbox:AddButton('Set as default', function()
 			
 			self:SaveDefault(self.Library.Options.ThemeManager_ThemeList.Value)
-			self.Library:Notify(string.format("Set default theme to '%q'", self.Library.Options.ThemeManager_ThemeList.Value))
+			self.Library:Notify(string.format('Set default theme to %q', self.Library.Options.ThemeManager_ThemeList.Value))
 		end)
 
 		self.Library.Options.ThemeManager_ThemeList:OnChanged(function()
@@ -329,7 +329,7 @@ local ThemeManager = {} do
 
 		groupbox:AddInput('ThemeManager_CustomThemeName', { Text = 'Custom theme name' })
 		groupbox:AddButton('Create theme', function() 
-			if string.len(self.Library.Options.ThemeManager_CustomThemeName.Value) < 1 then
+			if not self.Library.Options.ThemeManager_CustomThemeName.Value or string.len(self.Library.Options.ThemeManager_CustomThemeName.Value) < 1 then
 				self.Library:Notify(string.format('Name is empty.'))
 				return
 			end
@@ -346,29 +346,29 @@ local ThemeManager = {} do
 		groupbox:AddButton('Load theme', function()
 			local name = self.Library.Options.ThemeManager_CustomThemeList.Value
 
-			if string.len(name) < 1 then
+			if not name or string.len(name) < 1 then
 				self.Library:Notify(string.format('No theme has been selected.'))
 				return
 			end
 			
 			self:ApplyTheme(name)
-			self.Library:Notify(string.format("Loaded custom theme '%q'", name))
+			self.Library:Notify(string.format('Loaded custom theme %q', name))
 		end)
 		groupbox:AddButton('Overwrite theme', function()
 			local name = self.Library.Options.ThemeManager_CustomThemeList.Value
 
-			if string.len(name) < 1 then
+			if not name or string.len(name) < 1 then
 				self.Library:Notify(string.format('No theme has been selected.'))
 				return
 			end
 			
 			self:SaveCustomTheme(name)
-			self.Library:Notify(string.format("Overwrote custom theme '%q'", name))
+			self.Library:Notify(string.format('Overwrote custom theme %q', name))
 		end)
 		groupbox:AddButton('Delete theme', function()
 			local name = self.Library.Options.ThemeManager_CustomThemeList.Value
 
-			if string.len(name) < 1 then
+			if not name or string.len(name) < 1 then
 				self.Library:Notify(string.format('No theme has been selected.'))
 				return
 			end
@@ -378,20 +378,22 @@ local ThemeManager = {} do
 				return self.Library:Notify('Failed to delete theme: ' .. err)
 			end
 
+			self.Library.Options.ThemeManager_CustomThemeList:SetValue('')
 			self.Library:Notify(string.format('Deleted theme %q', name))
 			self.Library.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-			self.Library.Options.ThemeManager_CustomThemeList:SetValue('')
+		
 		end)
 		groupbox:AddButton('Refresh list', function()
-			self.Library.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
 			self.Library.Options.ThemeManager_CustomThemeList:SetValue('')
+			self.Library.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+			
 		end)
 		groupbox:AddButton('Set as default', function()
 			if self.Library.Options.ThemeManager_CustomThemeList.Value == nil or self.Library.Options.ThemeManager_CustomThemeList.Value == '' then
 				self.Library:Notify(string.format('No theme has been selected.'))
 				else
 				self:SaveDefault(self.Library.Options.ThemeManager_CustomThemeList.Value)
-				self.Library:Notify(string.format("Set custom theme '%q' as default.", self.Library.Options.ThemeManager_CustomThemeList.Value))
+				self.Library:Notify(string.format('Set custom theme %q as default.', self.Library.Options.ThemeManager_CustomThemeList.Value))
 			end
 		end)
 		groupbox:AddButton('Reset default', function()

@@ -330,19 +330,31 @@ local ThemeManager = {} do
 		groupbox:AddButton('Load theme', function()
 			local name = self.Library.Options.ThemeManager_CustomThemeList.Value
 
-			self:ApplyTheme(name)
+			if not name or string.len(name) < 1 then
+				self.Library:Notify(string.format('No theme has been selected.'))
+				return
+			end
+							self:ApplyTheme(name)
 			self.Library:Notify(string.format('Loaded theme %q', name))
 		end)
 		groupbox:AddButton('Overwrite theme', function()
 			local name = self.Library.Options.ThemeManager_CustomThemeList.Value
 
-			self:SaveCustomTheme(name)
+			if not name or string.len(name) < 1 then
+				self.Library:Notify(string.format('No theme has been selected.'))
+				return
+			end
+							self:SaveCustomTheme(name)
 			self.Library:Notify(string.format('Overwrote config %q', name))
 		end)
 		groupbox:AddButton('Delete theme', function()
 			local name = self.Library.Options.ThemeManager_CustomThemeList.Value
 
-			local success, err = self:Delete(name)
+			if not name or string.len(name) < 1 then
+				self.Library:Notify(string.format('No theme has been selected.'))
+				return
+			end
+							local success, err = self:Delete(name)
 			if not success then
 				return self.Library:Notify('Failed to delete theme: ' .. err)
 			end
@@ -356,7 +368,12 @@ local ThemeManager = {} do
 			self.Library.Options.ThemeManager_CustomThemeList:SetValue(nil)
 		end)
 		groupbox:AddButton('Set as default', function()
-			if self.Library.Options.ThemeManager_CustomThemeList.Value ~= nil and self.Library.Options.ThemeManager_CustomThemeList.Value ~= '' then
+			local name = self.Library.Options.ThemeManager_CustomThemeList.Value
+							if not name or string.len(name) < 1 then
+				self.Library:Notify(string.format('No theme has been selected.'))
+				return
+			end
+							if self.Library.Options.ThemeManager_CustomThemeList.Value ~= nil and self.Library.Options.ThemeManager_CustomThemeList.Value ~= '' then
 				self:SaveDefault(self.Library.Options.ThemeManager_CustomThemeList.Value)
 				self.Library:Notify(string.format('Set default theme to %q', self.Library.Options.ThemeManager_CustomThemeList.Value))
 			end

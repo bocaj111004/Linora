@@ -55,7 +55,7 @@ local Library = {
 	AccentColor = Color3.fromRGB(0, 85, 255);
 	OutlineColor = Color3.fromRGB(50, 50, 50);
 	RiskColor = Color3.fromRGB(255, 50, 50),
-	DisabledColor = Color3.fromRGB(125, 125, 125),
+	DisabledColor = Color3.fromRGB(80, 80, 80),
 
 	Black = Color3.new(0, 0, 0);
 	Font = Enum.Font.Code,
@@ -2419,15 +2419,15 @@ do
 			end;
 		end);
 
-		
-		
+
+
 		if Toggle.Risky then
 			Library:RemoveFromRegistry(ToggleLabel)
 			ToggleLabel.TextColor3 = Library.RiskColor
 			Library:AddToRegistry(ToggleLabel, { TextColor3 = 'RiskColor' })
 		end
 
-							if Toggle.Disabled then
+		if Toggle.Disabled then
 			Library:RemoveFromRegistry(ToggleLabel)
 			ToggleLabel.TextColor3 = Library.DisabledColor
 			Library:AddToRegistry(ToggleLabel, { TextColor3 = 'DisabledColor' })

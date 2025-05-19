@@ -1,3 +1,4 @@
+
 local cloneref = (cloneref or clonereference or function(instance: any) return instance end)
 local InputService: UserInputService = cloneref(game:GetService('UserInputService'));
 local TextService: TextService = cloneref(game:GetService('TextService'));
@@ -54,6 +55,7 @@ local Library = {
 	AccentColor = Color3.fromRGB(0, 85, 255);
 	OutlineColor = Color3.fromRGB(50, 50, 50);
 	RiskColor = Color3.fromRGB(255, 50, 50),
+	DisabledColor = Color3.fromRGB(135, 135, 135),
 
 	Black = Color3.new(0, 0, 0);
 	Font = Enum.Font.Code,
@@ -87,46 +89,46 @@ local Library = {
 	Options = Options;
 };
 local MouseIcon = Instance.new("Frame")
-		MouseIcon.Transparency = 1
-		local InnerPointer = Instance.new("ImageLabel")
-		InnerPointer.Size = UDim2.new(0.8,0,0.8,0)
-		InnerPointer.BackgroundTransparency = 1
-		InnerPointer.Image = "http://www.roblox.com/asset/?id=483266793"
-		InnerPointer.Parent = MouseIcon
-		InnerPointer.ZIndex = 39
-		InnerPointer.Position = UDim2.new(0.5,0,0.5,0)
-		InnerPointer.AnchorPoint = Vector2.new(0.5,0.5)
-		InnerPointer.Rotation = -20
-		local OuterPointer = Instance.new("ImageLabel")
-		OuterPointer.Size = UDim2.new(1,0,1,0)
-	
-		OuterPointer.BackgroundTransparency = 1
-		OuterPointer.Image = "http://www.roblox.com/asset/?id=483266793"
-		OuterPointer.Parent = MouseIcon
-		OuterPointer.Position = UDim2.new(0.5,0,0.5,0)
-		OuterPointer.AnchorPoint = Vector2.new(0.5,0.5)
-		OuterPointer.Rotation = -20
-		MouseIcon.Size = UDim2.new(0.0175,0,0.0175,0)
-		MouseIcon.Parent = Library.ScreenGui
-		MouseIcon.AnchorPoint = Vector2.new(0.5,0)
-		
-	
-		local AspectRatio = Instance.new("UIAspectRatioConstraint")
-		AspectRatio.Parent = MouseIcon
-		AspectRatio.AspectRatio = 0.9
-		local MouseConnection = game:GetService("RunService").RenderStepped:Connect(function()
-			MouseIcon.ZIndex = 99999999
-			OuterPointer.ZIndex = 99999991
-			InnerPointer.ZIndex = 99999992
-			InnerPointer.ImageColor3 = Library.AccentColor
-			OuterPointer.ImageColor3 = Library.OutlineColor
-			MouseIcon.Position = UDim2.new(0,LocalPlayer:GetMouse().X,0,LocalPlayer:GetMouse().Y)
-			if Library.ShowCustomCursor == true then
-				MouseIcon.Visible = Library.Toggled
-			else
-				MouseIcon.Visible = false
-			end
-		end)
+MouseIcon.Transparency = 1
+local InnerPointer = Instance.new("ImageLabel")
+InnerPointer.Size = UDim2.new(0.8,0,0.8,0)
+InnerPointer.BackgroundTransparency = 1
+InnerPointer.Image = "http://www.roblox.com/asset/?id=483266793"
+InnerPointer.Parent = MouseIcon
+InnerPointer.ZIndex = 39
+InnerPointer.Position = UDim2.new(0.5,0,0.5,0)
+InnerPointer.AnchorPoint = Vector2.new(0.5,0.5)
+InnerPointer.Rotation = -20
+local OuterPointer = Instance.new("ImageLabel")
+OuterPointer.Size = UDim2.new(1,0,1,0)
+
+OuterPointer.BackgroundTransparency = 1
+OuterPointer.Image = "http://www.roblox.com/asset/?id=483266793"
+OuterPointer.Parent = MouseIcon
+OuterPointer.Position = UDim2.new(0.5,0,0.5,0)
+OuterPointer.AnchorPoint = Vector2.new(0.5,0.5)
+OuterPointer.Rotation = -20
+MouseIcon.Size = UDim2.new(0.0175,0,0.0175,0)
+MouseIcon.Parent = Library.ScreenGui
+MouseIcon.AnchorPoint = Vector2.new(0.5,0)
+
+
+local AspectRatio = Instance.new("UIAspectRatioConstraint")
+AspectRatio.Parent = MouseIcon
+AspectRatio.AspectRatio = 0.9
+local MouseConnection = game:GetService("RunService").RenderStepped:Connect(function()
+	MouseIcon.ZIndex = 99999999
+	OuterPointer.ZIndex = 99999991
+	InnerPointer.ZIndex = 99999992
+	InnerPointer.ImageColor3 = Library.AccentColor
+	OuterPointer.ImageColor3 = Library.OutlineColor
+	MouseIcon.Position = UDim2.new(0,LocalPlayer:GetMouse().X,0,LocalPlayer:GetMouse().Y)
+	if Library.ShowCustomCursor == true then
+		MouseIcon.Visible = Library.Toggled
+	else
+		MouseIcon.Visible = false
+	end
+end)
 pcall(function() Library.DevicePlatform = InputService:GetPlatform(); end); -- For safety so the UI library doesn't error.
 Library.IsMobile = (Library.DevicePlatform == Enum.Platform.Android or Library.DevicePlatform == Enum.Platform.IOS);
 
@@ -912,7 +914,7 @@ do
 		});
 
 		local TransparencyBoxOuter, TransparencyBoxInner, TransparencyCursor;
-		
+
 		if Info.Transparency then 
 			TransparencyBoxOuter = Library:Create('Frame', {
 				BorderColor3 = Color3.new(0, 0, 0);
@@ -1040,7 +1042,7 @@ do
 				if Library.IsMobile then
 					Library.CanDrag = true;
 				end;
-				
+
 				self.Container.Visible = false;
 			end
 
@@ -2289,6 +2291,7 @@ do
 			Callback = Info.Callback or function(Value) end;
 			Addons = {},
 			Risky = Info.Risky,
+			Disabled = Info.Disabled;
 		};
 
 		local Blank;
@@ -2417,6 +2420,12 @@ do
 		end);
 
 		if Toggle.Risky then
+			Library:RemoveFromRegistry(ToggleLabel)
+			ToggleLabel.TextColor3 = Library.DisabledColor
+			Library:AddToRegistry(ToggleLabel, { TextColor3 = 'DisabledColor' })
+		end
+		
+		if Toggle.Disabled then
 			Library:RemoveFromRegistry(ToggleLabel)
 			ToggleLabel.TextColor3 = Library.RiskColor
 			Library:AddToRegistry(ToggleLabel, { TextColor3 = 'RiskColor' })
@@ -3701,8 +3710,8 @@ function Library:CreateWindow(...)
 	if Config.Center then
 		-- Config.AnchorPoint = Vector2.new(0.5, 0.5)
 		Config.Position = UDim2.new(0.5, -Config.Size.X.Offset/2, 0.5, -Config.Size.Y.Offset/2)
-						else
-							Config.Position = UDim2.new(0.5, Config.Size.X.Offset/1.45, 0.5, -Config.Size.Y.Offset/5)
+	else
+		Config.Position = UDim2.new(0.5, Config.Size.X.Offset/1.45, 0.5, -Config.Size.Y.Offset/5)
 	end
 
 	local Window = {
@@ -4476,22 +4485,22 @@ function Library:CreateWindow(...)
 			-- A bit scuffed, but if we're going from not toggled -> toggled we want to show the frame immediately so that the fade is visible.
 			Outer.Visible = true;
 
-			
-			
 
-				local OldMouseIconState = InputService.MouseIconEnabled
-				pcall(function() RunService:UnbindFromRenderStep("LinoriaCursor") end)
-				RunService:BindToRenderStep("LinoriaCursor", Enum.RenderPriority.Camera.Value - 1, function()
-					InputService.MouseIconEnabled = not Library.ShowCustomCursor
-					
 
-					if not Toggled or (not ScreenGui or not ScreenGui.Parent) then
-						InputService.MouseIconEnabled = OldMouseIconState
-						
-						RunService:UnbindFromRenderStep("LinoriaCursor")
-					end
-				end)
-			
+
+			local OldMouseIconState = InputService.MouseIconEnabled
+			pcall(function() RunService:UnbindFromRenderStep("LinoriaCursor") end)
+			RunService:BindToRenderStep("LinoriaCursor", Enum.RenderPriority.Camera.Value - 1, function()
+				InputService.MouseIconEnabled = not Library.ShowCustomCursor
+
+
+				if not Toggled or (not ScreenGui or not ScreenGui.Parent) then
+					InputService.MouseIconEnabled = OldMouseIconState
+
+					RunService:UnbindFromRenderStep("LinoriaCursor")
+				end
+			end)
+
 		end;
 
 		for _, Option in Options do
@@ -4501,7 +4510,7 @@ function Library:CreateWindow(...)
 				elseif Option.Type == 'KeyPicker' then
 					Option:SetModePickerVisibility(false);
 				elseif Option.Type == 'ColorPicker' then
-				
+
 					Option:Hide();
 				end
 			end)

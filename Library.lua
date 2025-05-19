@@ -2419,13 +2419,13 @@ do
 			end;
 		end);
 
-		if Toggle.Risky then
+		if Toggle.Disabled then
 			Library:RemoveFromRegistry(ToggleLabel)
 			ToggleLabel.TextColor3 = Library.DisabledColor
 			Library:AddToRegistry(ToggleLabel, { TextColor3 = 'DisabledColor' })
 		end
 		
-		if Toggle.Disabled then
+		if Toggle.Risky then
 			Library:RemoveFromRegistry(ToggleLabel)
 			ToggleLabel.TextColor3 = Library.RiskColor
 			Library:AddToRegistry(ToggleLabel, { TextColor3 = 'RiskColor' })

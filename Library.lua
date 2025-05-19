@@ -2290,8 +2290,8 @@ do
 
 			Callback = Info.Callback or function(Value) end;
 			Addons = {},
-			Risky = Info.Risky,
-			Disabled = Info.Disabled;
+			Risky = Info.Risky or false,
+			Disabled = Info.Disabled or false;
 		};
 
 		local Blank;
@@ -2419,16 +2419,18 @@ do
 			end;
 		end);
 
-		if Toggle.Disabled then
-			Library:RemoveFromRegistry(ToggleLabel)
-			ToggleLabel.TextColor3 = Library.DisabledColor
-			Library:AddToRegistry(ToggleLabel, { TextColor3 = 'DisabledColor' })
-		end
+		
 		
 		if Toggle.Risky then
 			Library:RemoveFromRegistry(ToggleLabel)
 			ToggleLabel.TextColor3 = Library.RiskColor
 			Library:AddToRegistry(ToggleLabel, { TextColor3 = 'RiskColor' })
+		end
+
+							if Toggle.Disabled then
+			Library:RemoveFromRegistry(ToggleLabel)
+			ToggleLabel.TextColor3 = Library.DisabledColor
+			Library:AddToRegistry(ToggleLabel, { TextColor3 = 'DisabledColor' })
 		end
 
 		Toggle:Display();

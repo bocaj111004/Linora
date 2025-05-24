@@ -108,7 +108,7 @@ OuterPointer.Parent = MouseIcon
 OuterPointer.Position = UDim2.new(0.5,0,0.5,0)
 OuterPointer.AnchorPoint = Vector2.new(0.5,0.5)
 OuterPointer.Rotation = -20
-MouseIcon.Size = UDim2.new(0.025,0,0.025,0)
+MouseIcon.Size = UDim2.new(0.25,0,0.25,0)
 MouseIcon.Parent = Library.ScreenGui
 MouseIcon.AnchorPoint = Vector2.new(0.5,0)
 

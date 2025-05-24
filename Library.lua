@@ -93,7 +93,7 @@ MouseIcon.Transparency = 1
 local InnerPointer = Instance.new("ImageLabel")
 InnerPointer.Size = UDim2.new(0.8,0,0.8,0)
 InnerPointer.BackgroundTransparency = 1
-InnerPointer.Image = "http://www.roblox.com/asset/?id=483266793"
+InnerPointer.Image = "http://www.roblox.com/asset/?id=15081397192"
 InnerPointer.Parent = MouseIcon
 InnerPointer.ZIndex = 39
 InnerPointer.Position = UDim2.new(0.5,0,0.5,0)
@@ -103,12 +103,12 @@ local OuterPointer = Instance.new("ImageLabel")
 OuterPointer.Size = UDim2.new(1,0,1,0)
 
 OuterPointer.BackgroundTransparency = 1
-OuterPointer.Image = "http://www.roblox.com/asset/?id=483266793"
+OuterPointer.Image = "http://www.roblox.com/asset/?id=15081397192"
 OuterPointer.Parent = MouseIcon
 OuterPointer.Position = UDim2.new(0.5,0,0.5,0)
 OuterPointer.AnchorPoint = Vector2.new(0.5,0.5)
 OuterPointer.Rotation = -20
-MouseIcon.Size = UDim2.new(0.0175,0,0.0175,0)
+MouseIcon.Size = UDim2.new(0.025,0,0.025,0)
 MouseIcon.Parent = Library.ScreenGui
 MouseIcon.AnchorPoint = Vector2.new(0.5,0)
 

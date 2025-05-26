@@ -5,33 +5,33 @@ local getassetfunc = getcustomasset or getsynasset
 local isfolder, isfile, listfiles = isfolder, isfile, listfiles;
 
 if typeof(copyfunction) == "function" then
-    -- Fix is_____ functions for shitsploits, those functions should never error, only return a boolean.
+	-- Fix is_____ functions for shitsploits, those functions should never error, only return a boolean.
 
-    local
-        isfolder_copy,
-        isfile_copy,
-        listfiles_copy = copyfunction(isfolder), copyfunction(isfile), copyfunction(listfiles);
+	local
+	isfolder_copy,
+	isfile_copy,
+	listfiles_copy = copyfunction(isfolder), copyfunction(isfile), copyfunction(listfiles);
 
-    local isfolder_success, isfolder_error = pcall(function()
-        return isfolder_copy("test" .. tostring(math.random(1000000, 9999999)))
-    end);
+	local isfolder_success, isfolder_error = pcall(function()
+		return isfolder_copy("test" .. tostring(math.random(1000000, 9999999)))
+	end);
 
-    if isfolder_success == false or typeof(isfolder_error) ~= "boolean" then
-        isfolder = function(folder)
-            local success, data = pcall(isfolder_copy, folder)
-            return (if success then data else false)
-        end;
+	if isfolder_success == false or typeof(isfolder_error) ~= "boolean" then
+		isfolder = function(folder)
+			local success, data = pcall(isfolder_copy, folder)
+			return (if success then data else false)
+		end;
 
-        isfile = function(file)
-            local success, data = pcall(isfile_copy, file)
-            return (if success then data else false)
-        end;
+		isfile = function(file)
+			local success, data = pcall(isfile_copy, file)
+			return (if success then data else false)
+		end;
 
-        listfiles = function(folder)
-            local success, data = pcall(listfiles_copy, folder)
-            return (if success then data else {})
-        end;
-    end
+		listfiles = function(folder)
+			local success, data = pcall(listfiles_copy, folder)
+			return (if success then data else {})
+		end;
+	end
 end
 
 local ThemeManager = {} do
@@ -93,7 +93,7 @@ local ThemeManager = {} do
 
 	--// Folders \\--
 	function ThemeManager:GetPaths()
-	    local paths = {}
+		local paths = {}
 
 		local parts = self.Folder:split('/')
 		for idx = 1, #parts do
@@ -101,7 +101,7 @@ local ThemeManager = {} do
 		end
 
 		paths[#paths + 1] = self.Folder .. '/themes'
-		
+
 		return paths
 	end
 
@@ -126,7 +126,7 @@ local ThemeManager = {} do
 		self.Folder = folder;
 		self:BuildFolderTree()
 	end
-	
+
 	--// Apply, Update theme \\--
 	function ThemeManager:ApplyTheme(theme)
 		local customThemeData = self:GetCustomTheme(theme)
@@ -138,20 +138,20 @@ local ThemeManager = {} do
 		if self.Library.InnerVideoBackground ~= nil then
 			self.Library.InnerVideoBackground.Visible = false
 		end
-		
+
 		local scheme = data[2]
 		for idx, col in next, customThemeData or scheme do
 			if idx == "VideoLink" then
 				self.Library[idx] = col
-				
+
 				if self.Library.Options[idx] then
 					self.Library.Options[idx]:SetValue(col)
 				end
-				
+
 				ApplyBackgroundVideo(col)
 			else
 				self.Library[idx] = Color3.fromHex(col)
-				
+
 				if self.Library.Options[idx] then
 					self.Library.Options[idx]:SetValueRGB(Color3.fromHex(col))
 				end
@@ -191,7 +191,7 @@ local ThemeManager = {} do
 
 		local data = readfile(path)
 		local success, decoded = pcall(httpService.JSONDecode, httpService, data)
-		
+
 		if not success then
 			return nil
 		end
@@ -255,10 +255,10 @@ local ThemeManager = {} do
 
 		local success = pcall(delfile, file)
 		if not success then return false, 'delete file error' end
-		
+
 		return true
 	end
-	
+
 	function ThemeManager:ReloadCustomThemes()
 		local list = listfiles(self.Folder .. '/themes')
 
@@ -294,7 +294,7 @@ local ThemeManager = {} do
 		groupbox:AddLabel('Outline color'):AddColorPicker('OutlineColor', { Default = self.Library.OutlineColor });
 		groupbox:AddLabel('Font color')	:AddColorPicker('FontColor', { Default = self.Library.FontColor });
 		groupbox:AddInput('VideoLink', { Text = '.webm Video Background (Link)', Default = self.Library.VideoLink });
-		
+
 		local ThemesArray = {}
 		for Name, Theme in next, self.BuiltInThemes do
 			table.insert(ThemesArray, Name)
@@ -334,7 +334,7 @@ local ThemeManager = {} do
 				self.Library:Notify(string.format('No theme has been selected.'))
 				return
 			end
-							self:ApplyTheme(name)
+			self:ApplyTheme(name)
 			self.Library:Notify(string.format('Loaded theme %q', name))
 		end)
 		groupbox:AddButton('Overwrite theme', function()
@@ -344,7 +344,7 @@ local ThemeManager = {} do
 				self.Library:Notify(string.format('No theme has been selected.'))
 				return
 			end
-							self:SaveCustomTheme(name)
+			self:SaveCustomTheme(name)
 			self.Library:Notify(string.format('Overwrote config %q', name))
 		end)
 		groupbox:AddButton('Delete theme', function()
@@ -354,7 +354,7 @@ local ThemeManager = {} do
 				self.Library:Notify(string.format('No theme has been selected.'))
 				return
 			end
-							local success, err = self:Delete(name)
+			local success, err = self:Delete(name)
 			if not success then
 				return self.Library:Notify('Failed to delete theme: ' .. err)
 			end
@@ -369,21 +369,25 @@ local ThemeManager = {} do
 		end)
 		groupbox:AddButton('Set as default', function()
 			local name = self.Library.Options.ThemeManager_CustomThemeList.Value
-							if not name or string.len(name) < 1 then
+			if not name or string.len(name) < 1 then
 				self.Library:Notify(string.format('No theme has been selected.'))
 				return
 			end
-							if self.Library.Options.ThemeManager_CustomThemeList.Value ~= nil and self.Library.Options.ThemeManager_CustomThemeList.Value ~= '' then
+			
 				self:SaveDefault(self.Library.Options.ThemeManager_CustomThemeList.Value)
 				self.Library:Notify(string.format('Set default theme to %q', self.Library.Options.ThemeManager_CustomThemeList.Value))
-			end
+			
 		end)
+		
+		self.Library.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+		self.Library.Options.ThemeManager_CustomThemeList:SetValue(nil)
+		
 		groupbox:AddButton('Reset default', function()
 			local success = pcall(delfile, self.Folder .. '/themes/default.txt')
 			if not success then 
 				return self.Library:Notify('Failed to reset default: delete file error')
 			end
-				
+
 			self.Library:Notify('Set default theme to nothing')
 			self.Library.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
 			self.Library.Options.ThemeManager_CustomThemeList:SetValue(nil)

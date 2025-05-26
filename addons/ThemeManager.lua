@@ -201,15 +201,16 @@ local ThemeManager = {} do
 
 	function ThemeManager:LoadDefault()
 		local theme = 'Default'
-		local content = isfile(self.Folder .. '/themes/default.txt') and readfile(self.Folder .. '/themes/default.txt')
+		local content = isfile(self.Folder .. '/themes/default') and readfile(self.Folder .. '/themes/default')
 
 		local isDefault = true
 		if content then
-			if self.BuiltInThemes[content] then
-				theme = content
-			elseif self:GetCustomTheme(content) then
+			
+			if self:GetCustomTheme(content) then
 				theme = content
 				isDefault = false;
+			elseif self.BuiltInThemes[content] then
+				theme = content
 			end
 		elseif self.BuiltInThemes[self.DefaultTheme] then
 			theme = self.DefaultTheme
@@ -223,7 +224,7 @@ local ThemeManager = {} do
 	end
 
 	function ThemeManager:SaveDefault(theme)
-		writefile(self.Folder .. '/themes/default.txt', theme)
+		writefile(self.Folder .. '/themes/default', theme)
 	end
 
 	function ThemeManager:SaveCustomTheme(file)
@@ -373,17 +374,17 @@ local ThemeManager = {} do
 				self.Library:Notify(string.format('No theme has been selected.'))
 				return
 			end
-			
-				self:SaveDefault(self.Library.Options.ThemeManager_CustomThemeList.Value)
-				self.Library:Notify(string.format('Set default theme to %q', self.Library.Options.ThemeManager_CustomThemeList.Value))
-			
+
+			self:SaveDefault(self.Library.Options.ThemeManager_CustomThemeList.Value)
+			self.Library:Notify(string.format('Set default theme to %q', self.Library.Options.ThemeManager_CustomThemeList.Value))
+
 		end)
-		
+
 		self.Library.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
 		self.Library.Options.ThemeManager_CustomThemeList:SetValue(nil)
-		
+
 		groupbox:AddButton('Reset default', function()
-			local success = pcall(delfile, self.Folder .. '/themes/default.txt')
+			local success = pcall(delfile, self.Folder .. '/themes/default')
 			if not success then 
 				return self.Library:Notify('Failed to reset default: delete file error')
 			end

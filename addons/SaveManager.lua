@@ -11,13 +11,13 @@ if copyfunction and isfolder then -- fix for mobile executors :/
 			if s == false then return nil end
 			return data
 		end
-	
+
 		getgenv().isfile = function(file)
 			local s, data = pcall(function() return isfile_(file) end)
 			if s == false then return nil end
 			return data
 		end
-	
+
 		getgenv().listfiles = function(folder)
 			local s, data = pcall(function() return listfiles_(folder) end)
 			if s == false then return {} end
@@ -101,7 +101,7 @@ local SaveManager = {} do
 			end
 		end)
 	end
-	
+
 	function SaveManager:SetIgnoreIndexes(list)
 		for _, key in next, list do
 			self.Ignore[key] = true
@@ -118,7 +118,7 @@ local SaveManager = {} do
 			return false, 'no config file is selected'
 		end
 		SaveManager:CheckFolderTree()
-		
+
 		local fullPath = self.Folder .. '/settings/' .. name .. '.json'
 		local data = {
 			objects = {}
@@ -151,7 +151,7 @@ local SaveManager = {} do
 			return false, 'no config file is selected'
 		end
 		SaveManager:CheckFolderTree()
-		
+
 		local file = self.Folder .. '/settings/' .. name .. '.json'
 		if not isfile(file) then return false, 'invalid file' end
 
@@ -171,13 +171,13 @@ local SaveManager = {} do
 		if (not name) then
 			return false, 'no config file is selected'
 		end
-		
+
 		local file = self.Folder .. '/settings/' .. name .. '.json'
 		if not isfile(file) then return false, 'invalid file' end
 
 		local success, decoded = pcall(delfile, file)
 		if not success then return false, 'delete file error' end
-		
+
 		return true
 	end
 
@@ -228,7 +228,7 @@ local SaveManager = {} do
 				end
 			end
 		end
-		
+
 		return out
 	end
 
@@ -238,7 +238,7 @@ local SaveManager = {} do
 
 	function SaveManager:LoadAutoloadConfig()
 		SaveManager:CheckFolderTree()
-		
+
 		if isfile(self.Folder .. '/settings/autoload.txt') then
 			local name = readfile(self.Folder .. '/settings/autoload.txt')
 
@@ -299,7 +299,7 @@ local SaveManager = {} do
 
 			self.Library:Notify(string.format('Overwrote config %q', name))
 		end)
-		
+
 		section:AddButton('Delete config', function()
 			local name = getgenv().Linoria.Options.SaveManager_ConfigList.Value
 
@@ -329,7 +329,7 @@ local SaveManager = {} do
 			if not success then 
 				return self.Library:Notify('Failed to reset autoload: delete file error')
 			end
-				
+
 			self.Library:Notify('Set autoload to none')
 			SaveManager.AutoloadLabel:SetText('Current autoload config: none')
 		end)
@@ -339,6 +339,12 @@ local SaveManager = {} do
 		if isfile(self.Folder .. '/settings/autoload.txt') then
 			local name = readfile(self.Folder .. '/settings/autoload.txt')
 			SaveManager.AutoloadLabel:SetText('Current autoload config: ' .. name)
+			local success, err = self:Load(name)
+			if not success then
+				return self.Library:Notify('Failed to auto load config: ' .. err)
+			end
+
+			self.Library:Notify(string.format('Auto loaded config %q', name))
 		end
 
 		SaveManager:SetIgnoreIndexes({ 'SaveManager_ConfigList', 'SaveManager_ConfigName' })

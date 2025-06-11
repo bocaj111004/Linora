@@ -1,4 +1,5 @@
 
+
 local cloneref = (cloneref or clonereference or function(instance: any) return instance end)
 local InputService: UserInputService = cloneref(game:GetService('UserInputService'));
 local TextService: TextService = cloneref(game:GetService('TextService'));
@@ -1733,10 +1734,10 @@ do
 			end;
 		end)
 
-		Library:GiveSignal(InputService.InputBegan:Connect(function(Input)
+		Library:GiveSignal(InputService.InputBegan:Connect(function(Input, CurrentlyTyping)
 			if KeyPicker.Value == "Unknown" then return end
 
-			if (not Picking) and (not InputService:GetFocusedTextBox()) then
+			if (not Picking) and (not CurrentlyTyping) then
 				if KeyPicker.Mode == 'Toggle' then
 					local Key = KeyPicker.Value;
 

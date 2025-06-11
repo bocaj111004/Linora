@@ -1734,10 +1734,10 @@ do
 			end;
 		end)
 
-		Library:GiveSignal(InputService.InputBegan:Connect(function(Input, CurrentlyTyping)
+		Library:GiveSignal(InputService.InputBegan:Connect(function(Input)
 			if KeyPicker.Value == "Unknown" then return end
 
-			if (not Picking) and (not CurrentlyTyping) then
+			if (not Picking) and (not InputService:GetFocusedTextBox()) then
 				if KeyPicker.Mode == 'Toggle' then
 					local Key = KeyPicker.Value;
 
@@ -4560,10 +4560,10 @@ function Library:CreateWindow(...)
 
 	Library:GiveSignal(InputService.InputBegan:Connect(function(Input, Processed)
 		if typeof(Library.ToggleKeybind) == 'table' and Library.ToggleKeybind.Type == 'KeyPicker' then
-			if Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode.Name == Library.ToggleKeybind.Value then
+			if Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode.Name == Library.ToggleKeybind.Value and not Processed then
 				task.spawn(Library.Toggle)
 			end
-		elseif Input.KeyCode == Enum.KeyCode.RightControl or (Input.KeyCode == Enum.KeyCode.RightShift and (not Processed)) then
+		elseif Input.KeyCode == Enum.KeyCode.RightControl and not Processed then
 			task.spawn(Library.Toggle)
 		end
 	end));

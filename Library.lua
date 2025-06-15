@@ -541,7 +541,7 @@ function Library:OnHighlight(HighlightInstance, Instance, Properties, Properties
 		end;
 	end
 	local function doHighlight()
-		if condition and not condition() then undoHighlight() return end
+
 		local Reg = Library.RegistryMap[Instance];
 
 		for Property, ColorIdx in next, Properties do
@@ -2282,6 +2282,8 @@ do
 	end;
 
 	function Funcs:AddToggle(Idx, Info)
+
+
 		assert(Info.Text, 'AddInput: Missing `Text` string.')
 
 		local Toggle = {
@@ -2346,19 +2348,22 @@ do
 
 		local ToggleRegion = Library:Create('Frame', {
 			BackgroundTransparency = 1;
-			Size = UDim2.new(0, 170, 1, 0);
+			Size = UDim2.new(1, 0, 1, 0);
 			ZIndex = 8;
 			Parent = ToggleOuter;
 		});
 
-		Library:OnHighlight(ToggleRegion, ToggleOuter,
+		Library:OnHighlight(ToggleOuter, ToggleOuter,
+			
 			{ BorderColor3 = 'AccentColor' },
 			{ BorderColor3 = 'Black' },
 			function()
+				
 				for _, Addon in next, Toggle.Addons do
 					if Library:MouseIsOverFrame(Addon.DisplayFrame) then return false end
 				end
 				return true
+
 			end
 		);
 
@@ -2367,7 +2372,9 @@ do
 		end;
 
 		if typeof(Info.Tooltip) == 'string' then
-			Library:AddToolTip(Info.Tooltip, ToggleRegion)
+			
+				Library:AddToolTip(Info.Tooltip, ToggleRegion)
+			
 		end
 
 		function Toggle:Display()
@@ -2410,13 +2417,16 @@ do
 			Groupbox:Resize();
 		end;
 
-		ToggleRegion.InputBegan:Connect(function(Input)
+		ToggleOuter.InputBegan:Connect(function(Input)
+
 			if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
-				for _, Addon in next, Toggle.Addons do
-					if Library:MouseIsOverFrame(Addon.DisplayFrame) then return end
-				end
-				Toggle:SetValue(not Toggle.Value) -- Why was it not like this from the start?
-				Library:AttemptSave();
+				
+					for _, Addon in next, Toggle.Addons do
+						if Library:MouseIsOverFrame(Addon.DisplayFrame) then return end
+					end
+					Toggle:SetValue(not Toggle.Value) -- Why was it not like this from the start?
+					Library:AttemptSave();
+				
 			end;
 		end);
 
@@ -2429,6 +2439,7 @@ do
 		end
 
 		if Toggle.Disabled then
+			ToggleInner.BackgroundColor3 = Library.DisabledColor
 			Library:RemoveFromRegistry(ToggleLabel)
 			ToggleLabel.TextColor3 = Library.DisabledColor
 			Library:AddToRegistry(ToggleLabel, { TextColor3 = 'DisabledColor' })
@@ -3728,11 +3739,11 @@ function Library:CreateWindow(...)
 		Position = Config.Position;
 		Size = Config.Size;
 		Visible = false;
-		ZIndex = 1;
+		ZIndex = -1;
 		Parent = ScreenGui;
 	});
 	LibraryMainOuterFrame = Outer;
-	Library:MakeDraggable(Outer, 25, true);
+
 
 	if Config.Resizable then
 		Library:MakeResizable(Outer, Library.MinSize);
@@ -3761,6 +3772,8 @@ function Library:CreateWindow(...)
 		ZIndex = 1;
 		Parent = Inner;
 	});
+
+	Library:MakeDraggable(Outer, 25, true);
 
 	local MainSectionOuter = Library:Create('Frame', {
 		BackgroundColor3 = Library.BackgroundColor;

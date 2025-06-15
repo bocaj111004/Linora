@@ -2354,11 +2354,11 @@ do
 		});
 
 		Library:OnHighlight(ToggleOuter, ToggleOuter,
-			
+
 			{ BorderColor3 = 'AccentColor' },
 			{ BorderColor3 = 'Black' },
 			function()
-				
+
 				for _, Addon in next, Toggle.Addons do
 					if Library:MouseIsOverFrame(Addon.DisplayFrame) then return false end
 				end
@@ -2372,9 +2372,9 @@ do
 		end;
 
 		if typeof(Info.Tooltip) == 'string' then
-			
-				Library:AddToolTip(Info.Tooltip, ToggleRegion)
-			
+
+			Library:AddToolTip(Info.Tooltip, ToggleRegion)
+
 		end
 
 		function Toggle:Display()
@@ -2420,13 +2420,13 @@ do
 		ToggleOuter.InputBegan:Connect(function(Input)
 
 			if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
-				
-					for _, Addon in next, Toggle.Addons do
-						if Library:MouseIsOverFrame(Addon.DisplayFrame) then return end
-					end
-					Toggle:SetValue(not Toggle.Value) -- Why was it not like this from the start?
-					Library:AttemptSave();
-				
+
+				for _, Addon in next, Toggle.Addons do
+					if Library:MouseIsOverFrame(Addon.DisplayFrame) then return end
+				end
+				Toggle:SetValue(not Toggle.Value) -- Why was it not like this from the start?
+				Library:AttemptSave();
+
 			end;
 		end);
 
@@ -3766,14 +3766,14 @@ function Library:CreateWindow(...)
 
 	local WindowLabel = Library:CreateLabel({
 		Position = UDim2.new(0, 7, 0, 0);
-		Size = UDim2.new(0, 0, 0, 25);
+		Size = UDim2.new(1, -14, 0, 25);
 		Text = Config.Title or '';
 		TextXAlignment = Enum.TextXAlignment.Left;
 		ZIndex = 1;
 		Parent = Inner;
 	});
 
-	Library:MakeDraggable(Outer, 25, true);
+	Library:MakeDraggableUsingParent(WindowLabel, Outer);
 
 	local MainSectionOuter = Library:Create('Frame', {
 		BackgroundColor3 = Library.BackgroundColor;

@@ -71,7 +71,7 @@ local Library = {
 	ActiveTab = nil;
 	Toggled = false;
 
-	MinSize = UDim2.new(0,workspace.CurrentCamera.ViewportSize.X * 0.3,0,workspace.CurrentCamera.ViewportSize.Y * 0.6);
+	MinSize = UDim2.new(0,550, 0,300);
 	IsMobile = false;
 	DevicePlatform = Enum.Platform.None;
 
@@ -133,14 +133,15 @@ end)
 pcall(function() Library.DevicePlatform = InputService:GetPlatform(); end); -- For safety so the UI library doesn't error.
 Library.IsMobile = (Library.DevicePlatform == Enum.Platform.Android or Library.DevicePlatform == Enum.Platform.IOS);
 
+if Library.IsMobile then
+	Library.MinSize = UDim2.new(0,200,0,250); -- Make UI little bit smaller.
+end
+Library.MinSize = if Library.IsMobile then Vector2.new(550, 200) else Vector2.new(550, 300);
 
 local RainbowStep = 0
 local Hue = 0
 
 table.insert(Library.Signals, RenderStepped:Connect(function(Delta)
-	Library.MinSize = UDim2.new(0,workspace.CurrentCamera.ViewportSize.X * 0.3,0,workspace.CurrentCamera.ViewportSize.Y * 0.6)
-	
-	
 	RainbowStep = RainbowStep + Delta
 
 	if RainbowStep >= (1 / 60) then
@@ -3745,19 +3746,16 @@ function Library:CreateWindow(...)
 
 	if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
 	if typeof(Config.Size) ~= 'UDim2' then 
-		Config.Size = Library.MinSize
+		Config.Size = UDim2.fromOffset(550, 600)
 		if Library.IsMobile then
 			local ViewportSizeYOffset = tonumber(workspace.CurrentCamera.ViewportSize.Y) - 35;
 			if ViewportSizeYOffset >= 200 and ViewportSizeYOffset <= 600 then
-				Config.Size = Library.MinSize
+				Config.Size = UDim2.fromOffset(550, ViewportSizeYOffset)
 			else
-				Config.Size = Library.MinSize
+				Config.Size = UDim2.fromOffset(550, 350)
 			end
 		end
 	end
-	
-	
-	
 
 	if Config.TabPadding <= 0 then
 		Config.TabPadding = 1
@@ -3784,14 +3782,6 @@ function Library:CreateWindow(...)
 		ZIndex = -1;
 		Parent = ScreenGui;
 	});
-	
-	table.insert(Library.Signals, RenderStepped:Connect(function(Delta)
-		Outer.Size = Library.MinSize
-
-
-		
-	end));
-	
 	LibraryMainOuterFrame = Outer;
 
 

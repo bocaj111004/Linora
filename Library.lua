@@ -3471,7 +3471,7 @@ do
 		ZIndex = 104;
 		Parent = KeybindInner;
 	});
-	Library:MakeDraggable(KeybindOuter);
+	Library:MakeDraggableUsingParent(KeybindLabel, KeybindOuter);
 
 	local KeybindContainer = Library:Create('Frame', {
 		BackgroundTransparency = 1;

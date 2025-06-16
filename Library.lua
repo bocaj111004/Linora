@@ -71,7 +71,7 @@ local Library = {
 	ActiveTab = nil;
 	Toggled = false;
 
-	MinSize = UDim2.new(0,workspace.CurrentCamera.ViewportSize.X * 0.3,0,workspace.CurrentCamera.ViewportSize.Y * 0.65);
+	MinSize = UDim2.new(0,workspace.CurrentCamera.ViewportSize.X * 0.3,0,workspace.CurrentCamera.ViewportSize.Y * 0.6);
 	IsMobile = false;
 	DevicePlatform = Enum.Platform.None;
 
@@ -138,7 +138,7 @@ local RainbowStep = 0
 local Hue = 0
 
 table.insert(Library.Signals, RenderStepped:Connect(function(Delta)
-	Library.MinSize = UDim2.new(0,workspace.CurrentCamera.ViewportSize.X * 0.3,0,workspace.CurrentCamera.ViewportSize.Y * 0.65)
+	Library.MinSize = UDim2.new(0,workspace.CurrentCamera.ViewportSize.X * 0.3,0,workspace.CurrentCamera.ViewportSize.Y * 0.6)
 	
 	
 	RainbowStep = RainbowStep + Delta

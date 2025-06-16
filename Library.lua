@@ -71,7 +71,7 @@ local Library = {
 	ActiveTab = nil;
 	Toggled = false;
 
-	MinSize = UDim2.new(0,550, 0,300);
+	MinSize = UDim2.new(0,workspace.CurrentCamera.ViewportSize.X * 0.3,0,workspace.CurrentCamera.ViewportSize.Y * 0.65);
 	IsMobile = false;
 	DevicePlatform = Enum.Platform.None;
 
@@ -133,10 +133,6 @@ end)
 pcall(function() Library.DevicePlatform = InputService:GetPlatform(); end); -- For safety so the UI library doesn't error.
 Library.IsMobile = (Library.DevicePlatform == Enum.Platform.Android or Library.DevicePlatform == Enum.Platform.IOS);
 
-if Library.IsMobile then
-	Library.MinSize = UDim2.new(0,200,0,250); -- Make UI little bit smaller.
-end
-Library.MinSize = if Library.IsMobile then Vector2.new(550, 200) else Vector2.new(550, 300);
 
 local RainbowStep = 0
 local Hue = 0

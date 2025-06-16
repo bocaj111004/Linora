@@ -138,7 +138,9 @@ local RainbowStep = 0
 local Hue = 0
 
 table.insert(Library.Signals, RenderStepped:Connect(function(Delta)
-
+	Library.MinSize = UDim2.new(0,workspace.CurrentCamera.ViewportSize.X * 0.3,0,workspace.CurrentCamera.ViewportSize.Y * 0.65)
+	
+	
 	RainbowStep = RainbowStep + Delta
 
 	if RainbowStep >= (1 / 60) then
@@ -3755,6 +3757,7 @@ function Library:CreateWindow(...)
 	end
 	
 	
+	
 
 	if Config.TabPadding <= 0 then
 		Config.TabPadding = 1
@@ -3781,6 +3784,14 @@ function Library:CreateWindow(...)
 		ZIndex = -1;
 		Parent = ScreenGui;
 	});
+	
+	table.insert(Library.Signals, RenderStepped:Connect(function(Delta)
+		Outer.Size = Library.MinSize
+
+
+		
+	end));
+	
 	LibraryMainOuterFrame = Outer;
 
 

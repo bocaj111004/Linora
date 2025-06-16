@@ -138,6 +138,7 @@ local RainbowStep = 0
 local Hue = 0
 
 table.insert(Library.Signals, RenderStepped:Connect(function(Delta)
+
 	RainbowStep = RainbowStep + Delta
 
 	if RainbowStep >= (1 / 60) then
@@ -3742,16 +3743,18 @@ function Library:CreateWindow(...)
 
 	if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
 	if typeof(Config.Size) ~= 'UDim2' then 
-		Config.Size = UDim2.fromOffset(550, 600)
+		Config.Size = Library.MinSize
 		if Library.IsMobile then
 			local ViewportSizeYOffset = tonumber(workspace.CurrentCamera.ViewportSize.Y) - 35;
 			if ViewportSizeYOffset >= 200 and ViewportSizeYOffset <= 600 then
-				Config.Size = UDim2.fromOffset(550, ViewportSizeYOffset)
+				Config.Size = Library.MinSize
 			else
-				Config.Size = UDim2.fromOffset(550, 350)
+				Config.Size = Library.MinSize
 			end
 		end
 	end
+	
+	
 
 	if Config.TabPadding <= 0 then
 		Config.TabPadding = 1

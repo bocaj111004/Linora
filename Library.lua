@@ -2393,7 +2393,7 @@ do
 			Parent = ToggleOuter;
 		});
 
-		Library:OnHighlight(ToggleOuter, ToggleOuter,
+		Library:OnHighlight(ToggleRegion, ToggleOuter,
 
 			{ BorderColor3 = 'AccentColor' },
 			{ BorderColor3 = 'Black' },
@@ -2457,7 +2457,7 @@ do
 			Groupbox:Resize();
 		end;
 
-		ToggleOuter.InputEnded:Connect(function(Input)
+		ToggleRegion.InputEnded:Connect(function(Input)
 
 			if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
 

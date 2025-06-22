@@ -1288,8 +1288,8 @@ do
 			end;
 		end);
 
-		DisplayFrame.InputEnded:Connect(function(Input)
-			if Library:MouseIsOverOpenedFrame() or DisplayFrame.GuiState ~= Enum.GuiState.Hover  then
+		DisplayFrame.InputBegan:Connect(function(Input)
+			if Library:MouseIsOverOpenedFrame() then
 				return;
 			end;
 
@@ -1720,9 +1720,8 @@ do
 
 		local Picking = false;
 
-		PickOuter.InputEnded:Connect(function(Input)
+		PickOuter.InputBegan:Connect(function(Input)
 			if Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame() then
-				if PickOuter.GuiState == Enum.GuiState.Hover then	
 				Picking = true;
 
 				DisplayLabel.Text = '';
@@ -1772,7 +1771,6 @@ do
 				end);
 			elseif Input.UserInputType == Enum.UserInputType.MouseButton2 and not Library:MouseIsOverOpenedFrame() then
 				KeyPicker:SetModePickerVisibility(not KeyPicker:GetModePickerVisibility())
-			end;
 			end;
 		end)
 
@@ -2003,10 +2001,10 @@ do
 				end
 			end
 
-			Button.Outer.InputEnded:Connect(function(Input)
+			Button.Outer.InputBegan:Connect(function(Input)
 				if not ValidateClick(Input) then return end
 				if Button.Locked then return end
-				if Button.Outer.GuiState == Enum.GuiState.Hover then	
+
 				if Button.DoubleClick then
 					Library:RemoveFromRegistry(Button.Label)
 					Library:AddToRegistry(Button.Label, { TextColor3 = 'AccentColor' })
@@ -2015,7 +2013,7 @@ do
 					Button.Label.Text = 'Are you sure?'
 					Button.Locked = true
 
-					local clicked = WaitForEvent(Button.Outer.InputEnded, 0.5, ValidateClick)
+					local clicked = WaitForEvent(Button.Outer.InputBegan, 0.5, ValidateClick)
 
 					Library:RemoveFromRegistry(Button.Label)
 					Library:AddToRegistry(Button.Label, { TextColor3 = 'FontColor' })
@@ -2029,7 +2027,6 @@ do
 					end
 
 					return
-				end
 				end
 
 				Library:SafeCallback(Button.Func);
@@ -2396,7 +2393,7 @@ do
 			Parent = ToggleOuter;
 		});
 
-		Library:OnHighlight(ToggleRegion, ToggleOuter,
+		Library:OnHighlight(ToggleOuter, ToggleOuter,
 
 			{ BorderColor3 = 'AccentColor' },
 			{ BorderColor3 = 'Black' },
@@ -2460,19 +2457,15 @@ do
 			Groupbox:Resize();
 		end;
 
-		ToggleRegion.InputEnded:Connect(function(Input)
+		ToggleOuter.InputBegan:Connect(function(Input)
 
 			if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
 
-				if ToggleRegion.GuiState == Enum.GuiState.Hover then		
-				
-				
 				for _, Addon in next, Toggle.Addons do
 					if Library:MouseIsOverFrame(Addon.DisplayFrame) then return end
 				end
 				Toggle:SetValue(not Toggle.Value) -- Why was it not like this from the start?
 				Library:AttemptSave();
-				end
 
 			end;
 		end);
@@ -3056,9 +3049,8 @@ do
 					Library.RegistryMap[ButtonLabel].Properties.TextColor3 = Selected and 'AccentColor' or 'FontColor';
 				end;
 
-				ButtonLabel.InputEnded:Connect(function(Input)
+				ButtonLabel.InputBegan:Connect(function(Input)
 					if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
-						if ButtonLabel.GuiState == Enum.GuiState.Hover then	
 						local Try = not Selected;
 
 						if Dropdown:GetActiveValues() == 1 and (not Try) and (not Info.AllowNull) then
@@ -3093,7 +3085,6 @@ do
 							Library:SafeCallback(Dropdown.Changed, Dropdown.Value);
 
 							Library:AttemptSave();
-						end;
 						end;
 					end;
 				end);
@@ -3187,19 +3178,17 @@ do
 			Library:SafeCallback(Dropdown.Changed, Dropdown.Value);
 		end;
 
-		DropdownOuter.InputEnded:Connect(function(Input)
+		DropdownOuter.InputBegan:Connect(function(Input)
 			if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
-				if DropdownOuter.GuiState == Enum.GuiState.Hover then	
 				if ListOuter.Visible then
 					Dropdown:CloseDropdown();
 				else
 					Dropdown:OpenDropdown();
 				end;
-				end
 			end;
 		end);
 
-		InputService.InputEnded:Connect(function(Input)
+		InputService.InputBegan:Connect(function(Input)
 			if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
 				local AbsPos, AbsSize = ListOuter.AbsolutePosition, ListOuter.AbsoluteSize;
 
@@ -4470,12 +4459,10 @@ function Library:CreateWindow(...)
 					BoxOuter.Size = UDim2.new(1, 0, 0, 20 + Size + 2 + 2);
 				end;
 
-				Button.InputEnded:Connect(function(Input)
-					if Button.GuiState == Enum.GuiState.Hover then	
+				Button.InputBegan:Connect(function(Input)
 					if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
 						Tab:Show();
 						Tab:Resize();
-					end;
 					end;
 				end)
 
@@ -4508,12 +4495,10 @@ function Library:CreateWindow(...)
 			return Tab:AddTabbox({ Name = Name, Side = 2; });
 		end;
 
-		TabButton.InputEnded:Connect(function(Input)
-			if TabButton.GuiState == Enum.GuiState.Hover then	
+		TabButton.InputBegan:Connect(function(Input)
 			if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
 				Tab:ShowTab();
 			end;
-			end
 		end);
 
 		TopBar:GetPropertyChangedSignal("Visible"):Connect(function()

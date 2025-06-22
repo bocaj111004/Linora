@@ -4459,7 +4459,7 @@ function Library:CreateWindow(...)
 					BoxOuter.Size = UDim2.new(1, 0, 0, 20 + Size + 2 + 2);
 				end;
 
-				Button.InputBegan:Connect(function(Input)
+				Button.InputEnded:Connect(function(Input)
 					if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
 						Tab:Show();
 						Tab:Resize();
@@ -4495,7 +4495,7 @@ function Library:CreateWindow(...)
 			return Tab:AddTabbox({ Name = Name, Side = 2; });
 		end;
 
-		TabButton.InputBegan:Connect(function(Input)
+		TabButton.InputEnded:Connect(function(Input)
 			if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
 				Tab:ShowTab();
 			end;

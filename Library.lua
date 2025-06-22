@@ -1288,7 +1288,7 @@ do
 			end;
 		end);
 
-		DisplayFrame.InputBegan:Connect(function(Input)
+		DisplayFrame.InputEnded:Connect(function(Input)
 			if Library:MouseIsOverOpenedFrame() then
 				return;
 			end;
@@ -1720,7 +1720,7 @@ do
 
 		local Picking = false;
 
-		PickOuter.InputBegan:Connect(function(Input)
+		PickOuter.InputEnded:Connect(function(Input)
 			if Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame() then
 				Picking = true;
 
@@ -2001,7 +2001,7 @@ do
 				end
 			end
 
-			Button.Outer.InputBegan:Connect(function(Input)
+			Button.Outer.InputEnded:Connect(function(Input)
 				if not ValidateClick(Input) then return end
 				if Button.Locked then return end
 
@@ -2013,7 +2013,7 @@ do
 					Button.Label.Text = 'Are you sure?'
 					Button.Locked = true
 
-					local clicked = WaitForEvent(Button.Outer.InputBegan, 0.5, ValidateClick)
+					local clicked = WaitForEvent(Button.Outer.InputEnded, 0.5, ValidateClick)
 
 					Library:RemoveFromRegistry(Button.Label)
 					Library:AddToRegistry(Button.Label, { TextColor3 = 'FontColor' })
@@ -2388,7 +2388,7 @@ do
 
 		local ToggleRegion = Library:Create('Frame', {
 			BackgroundTransparency = 1;
-			Size = UDim2.new(1, 0, 1, 0);
+			Size = UDim2.new(0, 75, 1, 0);
 			ZIndex = 8;
 			Parent = ToggleOuter;
 		});
@@ -2457,7 +2457,7 @@ do
 			Groupbox:Resize();
 		end;
 
-		ToggleOuter.InputBegan:Connect(function(Input)
+		ToggleOuter.InputEnded:Connect(function(Input)
 
 			if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
 
@@ -3049,7 +3049,7 @@ do
 					Library.RegistryMap[ButtonLabel].Properties.TextColor3 = Selected and 'AccentColor' or 'FontColor';
 				end;
 
-				ButtonLabel.InputBegan:Connect(function(Input)
+				ButtonLabel.InputEnded:Connect(function(Input)
 					if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
 						local Try = not Selected;
 
@@ -3178,7 +3178,7 @@ do
 			Library:SafeCallback(Dropdown.Changed, Dropdown.Value);
 		end;
 
-		DropdownOuter.InputBegan:Connect(function(Input)
+		DropdownOuter.InputEnded:Connect(function(Input)
 			if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
 				if ListOuter.Visible then
 					Dropdown:CloseDropdown();
@@ -3188,7 +3188,7 @@ do
 			end;
 		end);
 
-		InputService.InputBegan:Connect(function(Input)
+		InputService.InputEnded:Connect(function(Input)
 			if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
 				local AbsPos, AbsSize = ListOuter.AbsolutePosition, ListOuter.AbsoluteSize;
 

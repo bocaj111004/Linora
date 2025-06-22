@@ -1289,7 +1289,7 @@ do
 		end);
 
 		DisplayFrame.InputEnded:Connect(function(Input)
-			if Library:MouseIsOverOpenedFrame() then
+			if Library:MouseIsOverOpenedFrame() or DisplayFrame.GuiState ~= Enum.GuiState.Hover  then
 				return;
 			end;
 
@@ -1722,6 +1722,7 @@ do
 
 		PickOuter.InputEnded:Connect(function(Input)
 			if Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame() then
+				if PickOuter.GuiState == Enum.GuiState.Hover then	
 				Picking = true;
 
 				DisplayLabel.Text = '';
@@ -1771,6 +1772,7 @@ do
 				end);
 			elseif Input.UserInputType == Enum.UserInputType.MouseButton2 and not Library:MouseIsOverOpenedFrame() then
 				KeyPicker:SetModePickerVisibility(not KeyPicker:GetModePickerVisibility())
+			end;
 			end;
 		end)
 
@@ -2004,7 +2006,7 @@ do
 			Button.Outer.InputEnded:Connect(function(Input)
 				if not ValidateClick(Input) then return end
 				if Button.Locked then return end
-
+				if Button.Outer.GuiState == Enum.GuiState.Hover then	
 				if Button.DoubleClick then
 					Library:RemoveFromRegistry(Button.Label)
 					Library:AddToRegistry(Button.Label, { TextColor3 = 'AccentColor' })
@@ -2027,6 +2029,7 @@ do
 					end
 
 					return
+				end
 				end
 
 				Library:SafeCallback(Button.Func);
@@ -2461,11 +2464,15 @@ do
 
 			if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
 
+				if ToggleRegion.GuiState == Enum.GuiState.Hover then		
+				
+				
 				for _, Addon in next, Toggle.Addons do
 					if Library:MouseIsOverFrame(Addon.DisplayFrame) then return end
 				end
 				Toggle:SetValue(not Toggle.Value) -- Why was it not like this from the start?
 				Library:AttemptSave();
+				end
 
 			end;
 		end);
@@ -3051,6 +3058,7 @@ do
 
 				ButtonLabel.InputEnded:Connect(function(Input)
 					if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+						if ButtonLabel.GuiState == Enum.GuiState.Hover then	
 						local Try = not Selected;
 
 						if Dropdown:GetActiveValues() == 1 and (not Try) and (not Info.AllowNull) then
@@ -3085,6 +3093,7 @@ do
 							Library:SafeCallback(Dropdown.Changed, Dropdown.Value);
 
 							Library:AttemptSave();
+						end;
 						end;
 					end;
 				end);
@@ -3180,11 +3189,13 @@ do
 
 		DropdownOuter.InputEnded:Connect(function(Input)
 			if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
+				if DropdownOuter.GuiState == Enum.GuiState.Hover then	
 				if ListOuter.Visible then
 					Dropdown:CloseDropdown();
 				else
 					Dropdown:OpenDropdown();
 				end;
+				end
 			end;
 		end);
 
@@ -4460,9 +4471,11 @@ function Library:CreateWindow(...)
 				end;
 
 				Button.InputEnded:Connect(function(Input)
+					if Button.GuiState == Enum.GuiState.Hover then	
 					if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
 						Tab:Show();
 						Tab:Resize();
+					end;
 					end;
 				end)
 
@@ -4496,9 +4509,11 @@ function Library:CreateWindow(...)
 		end;
 
 		TabButton.InputEnded:Connect(function(Input)
+			if TabButton.GuiState == Enum.GuiState.Hover then	
 			if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
 				Tab:ShowTab();
 			end;
+			end
 		end);
 
 		TopBar:GetPropertyChangedSignal("Visible"):Connect(function()

@@ -1165,11 +1165,11 @@ do
 				if PickerFrameOuter.Visible then
 					ColorPicker:Hide()
 				else
-					ContextMenu:Hide()
+					
 					ColorPicker:Show()
 				end;
 			elseif Input.UserInputType == Enum.UserInputType.MouseButton2 then
-				ContextMenu:Show()
+			
 				ColorPicker:Hide()
 		
 				
@@ -1206,16 +1206,10 @@ do
 					ColorPicker:Hide();
 				end;
 
-				if not Library:MouseIsOverFrame(ContextMenu.Container) then
-					ContextMenu:Hide()
-				end
+				
 			end;
 
-			if Input.UserInputType == Enum.UserInputType.MouseButton2 and ContextMenu.Container.Visible then
-				if not Library:MouseIsOverFrame(ContextMenu.Container) and not Library:MouseIsOverFrame(DisplayFrame) then
-					ContextMenu:Hide()
-				end
-			end
+			
 		end))
 
 		ColorPicker:Display();

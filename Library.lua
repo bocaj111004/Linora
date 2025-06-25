@@ -1,5 +1,6 @@
 
 
+
 local cloneref = (cloneref or clonereference or function(instance: any) return instance end)
 local InputService: UserInputService = cloneref(game:GetService('UserInputService'));
 local TextService: TextService = cloneref(game:GetService('TextService'));
@@ -1128,17 +1129,6 @@ do
 				ColorPicker:SetValueRGB(Library.ColorClipboard)
 			end)
 
-
-			ContextMenu:AddOption('Copy HEX', function()
-				pcall(setclipboard, ColorPicker.Value:ToHex())
-				Library:Notify('Copied hex code to clipboard!', 2)
-			end)
-
-			ContextMenu:AddOption('Copy RGB', function()
-				pcall(setclipboard, table.concat({ math.floor(ColorPicker.Value.R * 255), math.floor(ColorPicker.Value.G * 255), math.floor(ColorPicker.Value.B * 255) }, ', '))
-				Library:Notify('Copied RGB values to clipboard!', 2)
-			end)
-
 		end
 
 		Library:AddToRegistry(PickerFrameInner, { BackgroundColor3 = 'BackgroundColor'; BorderColor3 = 'OutlineColor'; });
@@ -1303,6 +1293,8 @@ do
 			elseif Input.UserInputType == Enum.UserInputType.MouseButton2 then
 				ContextMenu:Show()
 				ColorPicker:Hide()
+		
+				
 			end
 		end);
 
@@ -2393,7 +2385,7 @@ do
 			Parent = ToggleOuter;
 		});
 
-		Library:OnHighlight(ToggleOuter, ToggleOuter,
+		Library:OnHighlight(ToggleRegion, ToggleOuter,
 
 			{ BorderColor3 = 'AccentColor' },
 			{ BorderColor3 = 'Black' },
@@ -2457,7 +2449,7 @@ do
 			Groupbox:Resize();
 		end;
 
-		ToggleOuter.InputBegan:Connect(function(Input)
+		ToggleRegion.InputBegan:Connect(function(Input)
 
 			if (Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame()) or Input.UserInputType == Enum.UserInputType.Touch then
 

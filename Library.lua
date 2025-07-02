@@ -728,7 +728,9 @@ function Library:Unload()
 
 	-- Call our unload callback, maybe to undo some hooks etc
 	for _, UnloadCallback in pairs(Library.UnloadSignals) do
-		Library:SafeCallback(UnloadCallback)
+		if UnloadCallback ~= nil then
+			UnloadCallback:Disconnect()
+		end
 	end
 
 	ScreenGui:Destroy()
@@ -1007,7 +1009,7 @@ do
 		});
 
 
-	
+
 
 		Library:AddToRegistry(PickerFrameInner, { BackgroundColor3 = 'BackgroundColor'; BorderColor3 = 'OutlineColor'; });
 		Library:AddToRegistry(Highlight, { BackgroundColor3 = 'AccentColor'; });
@@ -1165,14 +1167,14 @@ do
 				if PickerFrameOuter.Visible then
 					ColorPicker:Hide()
 				else
-					
+
 					ColorPicker:Show()
 				end;
 			elseif Input.UserInputType == Enum.UserInputType.MouseButton2 then
-			
+
 				ColorPicker:Hide()
-		
-				
+
+
 			end
 		end);
 
@@ -1206,10 +1208,10 @@ do
 					ColorPicker:Hide();
 				end;
 
-				
+
 			end;
 
-			
+
 		end))
 
 		ColorPicker:Display();
